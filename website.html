@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>162024ten</title>  
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #282828;
+            color: #f8f8f2;
+            margin: 40px;
+            text-align: center;
+        }
+        #quiz-container, #final-page, #final-message, #final-images {
+            background: #6272a4;
+            padding: 20px;
+            border-radius: 8px;
+            width: 60%;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            display: none; /* Initially hide all containers */
+        }
+        #final-message, #final-images {
+            background: #b0b0b0; /* Plain gray background */
+            box-shadow: none; /* Remove box shadow */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #50fa7b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #38b764;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        #final-images img {
+            max-width: 320%; /* Increase image size significantly */
+            margin: 40px 0; /* Adjust margins for better spacing */
+        }
+    </style>
+</head>
+<body onload="startQuiz()">
+    <div id="quiz-container">
+        <img src="https://i.ibb.co/Q64zbq0/spooky-forest.jpg" alt="Spooky Forest Image">
+        <h1 id="question-title">How well do you really know the Lancaster's?</h1>
+        <div id="question-page">
+            <p id="question"></p>
+            <input type="text" id="userAnswer" placeholder="Type your answer here...">
+            <button type="button" onclick="submitAnswer()">Submit Answer</button>
+        </div>
+        <p id="result"></p>
+    </div>
+
+    <div id="final-page">
+        <h1>Click Here to Reveal the Big News!</h1>
+        <button type="button" onclick="showFinalMessage()">Click Here</button>
+    </div>
+
+    <div id="final-message">
+        <h1>Congratulations!</h1>
+        <p>You've guessed it all right!</p>
+        <p>We're excited to announce another baby boy is on the way!</p>
+        <p>We will be a Family of 5 come October 2024.</p>
+        <button type="button" onclick="showFinalImages()">Click to see more</button>
+    </div>
+
+    <div id="final-images">
+        <a href="https://postimg.cc/14fyykvf" target="_blank"><img src="https://i.postimg.cc/14fyykvf/IMG-2589.jpg" alt="IMG-2589"/></a><br/><br/>
+        <a href="https://postimg.cc/dDpw35fn" target="_blank"><img src="https://i.postimg.cc/dDpw35fn/IMG-2619.jpg" alt="IMG-2619"/></a><br/><br/>
+        <a href="https://postimg.cc/wRyzFN1h" target="_blank"><img src="https://i.postimg.cc/wRyzFN1h/IMG-3232.jpg" alt="IMG-3232"/></a><br/><br/>
+    </div>
+
+    <script>
+        var questions = [
+            { question: "What year did we get married?", answer: "2019", nextText: "Correct! Next question" },
+            { question: "What is Jodeci's favorite toy? Hint- VROOM VROOM, 2 words don't forget the space:", answer: "monster trucks", nextText: "Nice! Moving on" },
+            { question: "In regards to Nova, what movie is 'Let it go' from? Hint- Disney:", answer: "frozen", nextText: "Right again! Next:" },
+            { question: "What is Naomi's favorite drink cafe? Hint- No need:", answer: "starbucks", nextText: "Almost there" },
+            { question: "What does Justin do that involves pins? Hint- 4 Letter word:", answer: "bowl", nextText: "Last one" },
+            { question: "Have you got tired of guessing already?? Well, there is one more ultimate task left. I can bring a smile to your face, a tear to your mind. But I can't be seen yet. What am I? Hint- a ____:", answer: "a baby", nextText: "Congratulations! Click to reveal the big news." }
+        ];
+        var currentQuestionIndex = 0;
+
+        function startQuiz() {
+            document.getElementById("quiz-container").style.display = "block"; // Show the quiz container
+            displayQuestion(); // Display the first question
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                document.getElementById("question").innerHTML = questions[currentQuestionIndex].question;
+                document.getElementById("userAnswer").value = ""; // Clear the input field for the new question
+                document.getElementById("result").textContent = ""; // Clear the result text
+                document.getElementById("question-page").style.display = "block";
+            }
+        }
+
+        function submitAnswer() {
+            var userAnswer = document.getElementById("userAnswer").value.toLowerCase();
+            if (userAnswer === questions[currentQuestionIndex].answer) {
+                document.getElementById("result").innerHTML = questions[currentQuestionIndex].nextText; // Show the next hint
+                currentQuestionIndex++; // Increment to the next question
+                if (currentQuestionIndex < questions.length) {
+                    setTimeout(displayQuestion, 2000); // Delay to show the hint
+                } else {
+                    setTimeout(showFinalPage, 2000); // If no more questions, show the final page after delay
+                }
+            } else {
+                document.getElementById("result").innerHTML = "Oops! Try again."; // Show error message
+            }
+        }
+
+        function showFinalPage() {
+            document.getElementById("quiz-container").style.display = "none";
+            document.getElementById("final-page").style.display = "block";
+        }
+
+        function showFinalMessage() {
+            document.getElementById("final-page").style.display = "none";
+            document.getElementById("final-message").style.display = "block";
+        }
+
+        function showFinalImages() {
+            document.getElementById("final-message").style.display = "none";
+            document.getElementById("final-images").style.display = "block";
+        }
+
+        document.getElementById("userAnswer").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                submitAnswer();
+            }
+        });
+    </script>
+</body>
+</html>
+
